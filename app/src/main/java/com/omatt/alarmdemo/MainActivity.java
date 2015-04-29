@@ -1,5 +1,8 @@
 package com.omatt.alarmdemo;
 
+import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.provider.AlarmClock;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -10,6 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.Button;
+import android.widget.TimePicker;
+
+import java.util.Calendar;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -60,6 +67,24 @@ public class MainActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            final Calendar mCalendar = Calendar.getInstance();
+            Button btnSetAlarm = (Button) rootView.findViewById(R.id.btn_set_alarm);
+            btnSetAlarm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TimePickerDialog mTimePicker;
+                    mTimePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                            Intent openNewAlarm = new Intent(AlarmClock.ACTION_SET_ALARM);
+                            openNewAlarm.putExtra(AlarmClock.EXTRA_HOUR, hourOfDay);
+                            openNewAlarm.putExtra(AlarmClock.EXTRA_MINUTES, minute);
+                            startActivity(openNewAlarm);
+                        }
+                    }, mCalendar.get(Calendar.HOUR), mCalendar.get(Calendar.MINUTE), false);
+                    mTimePicker.show();
+                }
+            });
             return rootView;
         }
     }
