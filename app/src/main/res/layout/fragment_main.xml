@@ -13,6 +13,6 @@
         android:id="@+id/btn_set_alarm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/txt_btn_set_alarm" />
+        android:text="@string/txt_btn_set_alarm_intent" />
 
 </LinearLayout>
